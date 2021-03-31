@@ -1,8 +1,8 @@
 import numpy as np
 import random
 import math
-import route
-import map
+from route import Route
+from graph import Map
 import matplotlib.pyplot as plt
 
 class  Population():
@@ -10,17 +10,21 @@ class  Population():
         self.map = map
         self.num_of_routes = n
         self.num_of_cities = m
-        self.routes = [Route(m, map)]*n
+        self.routes = []
+        for i in range(n):
+            self.routes.append(Route(m,map))
         self.fitness = 0
         self.best_distance_in_generation = []
         self.best_route = ""
+        self.num_of_generation = 1
 
-    def calcFitness():
-        for i in range(self.num_of_routes):
-            self.routes[i].calcFitness
-            self.fitness += routes[i].fitness
+    def calcFitness(self):
+        self.fitness = 0
+        for route in self.routes:
+            route.calcFitness()
+            self.fitness += route.fitness
 
-    def find_best_route():
+    def find_best_route(self):
         best_route = self.routes[0]
         for route in self.routes:
             if best_route.fitness > route.fitness:
@@ -29,7 +33,7 @@ class  Population():
         self.best_route = best_route
 
     
-    def genetic_algorithm():
+    def geneticAlgorithm(self):
         self.calcFitness()
         self.find_best_route()
         new_routes = [self.best_route]
@@ -38,12 +42,14 @@ class  Population():
             parent2 = self.select_parent()
             child = self.crossover(parent1, parent2)
             child.mutate()
+            print(child.path)
             new_routes.append(child)
         self.routes = new_routes
         self.fitness = 0
+        self.num_of_generation += 1
 
     
-    def crossover(parent1, parent2):
+    def crossover(self, parent1, parent2):
         child = Route(self.num_of_cities, self.map)
         gene1 = random.randint(0, self.num_of_cities)
         gene2 = random.randint(0, self.num_of_cities)
@@ -52,22 +58,27 @@ class  Population():
         end = max(gene1, gene2) + 1
 
         child.path[start:end] = parent1.path[start:end]
-        i = 0
-        for gene in parent2.path:
-            if gene not in child.path:
-                child.path[i] = gene
+        i = j = 0
+        while i < self.num_of_cities and j < self.num_of_cities:
+            if start <= i < end:
+                i += 1
+            else:
+                while parent2.path[j] in child.path and j < self.num_of_cities - 1:
+                    j += 1
+                child.path[i] = parent2.path[j]
                 i += 1
         return child
+        
 
-    def select_parent():
-        rand = random.randint(0, self.fitness)
-        sum = 0
-        for i in range(self.num_of_routes):
-            sum += self.routes[i].fitness
-            if sum >= rand:
-                return self.routes[i]
+    def select_parent(self):
+        rnd = random.uniform(0, self.fitness)
+        suma = 0
+        for route in self.routes:
+            suma += route.fitness
+            if suma >= rnd:
+                return route
 
-    def draw_distance_over_iterations():
+    #def draw_distance_over_iterations():
 
 
     
