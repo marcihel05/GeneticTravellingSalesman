@@ -27,22 +27,24 @@ class  Population():
     def find_best_route(self):
         best_route = self.routes[0]
         for route in self.routes:
-            if best_route.fitness > route.fitness:
+           # print(route.path)
+           # print(route.distance)
+            if best_route.fitness < route.fitness:
                 best_route = route
         self.best_distance_in_generation.append(best_route.distance)
-        self.best_route = best_route
+        self.best_route = best_route.clone()
+        self.best_route.distance = best_route.distance
 
     
     def geneticAlgorithm(self):
         self.calcFitness()
         self.find_best_route()
-        new_routes = [self.best_route]
+        new_routes = [self.best_route.clone()]
         for i in range(self.num_of_routes):
             parent1 = self.select_parent()
             parent2 = self.select_parent()
             child = self.crossover(parent1, parent2)
             child.mutate()
-            print(child.path)
             new_routes.append(child)
         self.routes = new_routes
         self.fitness = 0
@@ -58,20 +60,27 @@ class  Population():
         end = max(gene1, gene2) + 1
 
         child.path[start:end] = parent1.path[start:end]
-        i = j = 0
-        while i < self.num_of_cities and j < self.num_of_cities:
-            if start <= i < end:
-                i += 1
-            else:
-                while parent2.path[j] in child.path and j < self.num_of_cities - 1:
-                    j += 1
-                child.path[i] = parent2.path[j]
-                i += 1
+        child.path[:start] = child.path[end:] = -1
+        #print(child.path)
+
+        for gene in parent2.path:
+            if gene not in child.path:
+                for i in range(self.num_of_cities):
+                    if child.path[i] == -1:
+                        child.path[i] = gene
+                        break
+                    
+                
+        #print(child.path)
         return child
         
 
+
     def select_parent(self):
         rnd = random.uniform(0, self.fitness)
+        suma = 0
+        for route in self.routes:
+            suma += route.fitness
         suma = 0
         for route in self.routes:
             suma += route.fitness
