@@ -23,7 +23,10 @@ class Map():
     
     #def draw_graph():
 
-    #def draw_coordinate():
+    def draw_coordinate():
+        fig, ax = plt.subplot()
+        ax.set_title('Cities')
+        ax.plt.scatter(self.xy[:,0], self.xy[:, 1])
 
 
         
