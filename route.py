@@ -4,7 +4,7 @@ import math
 import graph
 import pandas as pd
 
-MUTATION_RATE = 0.05
+MUTATION_RATE = 0.1
 
 class Route():
     def __init__(self, n, graph):
@@ -15,7 +15,6 @@ class Route():
         self.path = np.random.permutation(self.num_of_cities)
 
     def calcDistance(self):
-        self.distance = 0
         for i in range(self.num_of_cities-1):
             self.distance += self.map.distances[self.path[i]][self.path[i+1]]
         self.distance += self.map.distances[self.path[0]][self.path[self.num_of_cities-1]]
@@ -25,12 +24,10 @@ class Route():
         self.fitness = 1/self.distance * 1000
 
     def mutate(self): 
-        #print(self.path)
         for i in range(self.num_of_cities):
             if random.random() < MUTATION_RATE:
                 j = random.randrange(0, self.num_of_cities)
                 self.path[i], self.path[j] = self.path[j], self.path[i]
-        #print(self.path)
 
     def clone(self):
         new_route = Route(self.num_of_cities, self.map)

@@ -1,8 +1,6 @@
-import networkx as nx
 import numpy as np
 import random
 import math
-import matplotlib.pyplot as plt
 
 class Map():
     def __init__(self, n):
@@ -20,13 +18,8 @@ class Map():
                 q = self.xy[j]
                 distances[i][j] = math.sqrt((p[0]-q[0])**2+(p[1]-q[1])**2)
         return distances
-    
-    #def draw_graph():
 
-    def draw_coordinate():
-        fig, ax = plt.subplot()
-        ax.set_title('Cities')
-        ax.plt.scatter(self.xy[:,0], self.xy[:, 1])
+
 
 
         
