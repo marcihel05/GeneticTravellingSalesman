@@ -3,8 +3,7 @@ import random
 import math
 import graph
 import pandas as pd
-
-MUTATION_RATE = 0.1
+from settings import *
 
 class Route():
     def __init__(self, n, graph):
