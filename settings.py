@@ -1,0 +1,14 @@
+WIN_WIDTH = 1200
+WIN_HEIGHT = 800
+
+NUM_OF_CITIES = 50
+NUM_OF_ROUTES = 25
+NUM_OF_GENERATIONS = 1000000
+MUTATION_RATE = 0.1
+
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+YELLOW = (255, 255, 0)
+
+OPTION = 'load' #random, circle, load
+FILE = 'uscap_xy.txt' #ime datoteke
