@@ -7,11 +7,14 @@ class Map():
     def __init__(self, n, option = 'random'):
         self.num_of_cities = n
         if option == 'random':
-            self.xy = np.array([random.uniform(200, 600), random.uniform(200,600)] for i in range(n))
+            self.xy = np.array([[random.uniform(200, 700), random.uniform(200,700)] for i in range(n)])
+            self.draw_xy = self.xy
         if option == 'circle':
-            self.xy = np.array([[math.cos(t), math.sin(t)]*250 + 400 for t in np.linspace(0, 2*math.pi, n)])
+            self.xy = np.array([[math.cos(t), math.sin(t)] for t in np.linspace(0, 2*math.pi, n)])
+            self.draw_xy = np.array([[math.cos(t)*250 + 400, math.sin(t)*250 + 400] for t in np.linspace(0, 2*math.pi, n)])
         if option == 'load':
             self.xy = self.load_from_file()
+            self.draw_xy = self.xy
         self.distances = self.calculate_distances()
 
     def calculate_distances(self):
@@ -25,16 +28,7 @@ class Map():
     
     def load_from_file(self):
         arr = np.loadtxt(FILE)
-        mn =  -min(arr[:,0])
-        for i in range(self.num_of_cities):
-            arr[i][0] += mn
-        for i in range(self.num_of_cities):
-            arr[i] += 55
-            arr[i] /= 7
-        print(arr)
         return arr
-
-                #NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
 
 
 
