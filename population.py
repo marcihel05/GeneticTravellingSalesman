@@ -39,7 +39,6 @@ class  Population():
     def geneticAlgorithm(self):
         self.calcFitness()
         self.find_best_route()
-        #new_routes = [self.best_route.clone()]
         new_routes = self.find_best_routes()
         for i in range(self.num_of_routes-5):
             parent1 = self.select_parent()
@@ -86,14 +85,15 @@ class  Population():
 
     def draw_path(self, win):
         for i in range(self.num_of_cities-1):
-            pygame.draw.line(win, WHITE, self.map.xy[self.best_route.path[i]], self.map.xy[self.best_route.path[i+1]])
-        pygame.draw.line(win, WHITE, self.map.xy[self.best_route.path[0]], self.map.xy[self.best_route.path[-1]])
+            pygame.draw.line(win, WHITE, self.map.draw_xy[self.best_route.path[i]], self.map.draw_xy[self.best_route.path[i+1]])
+        pygame.draw.line(win, WHITE, self.map.draw_xy[self.best_route.path[0]], self.map.draw_xy[self.best_route.path[-1]])
         for i in range(self.num_of_cities):
-            pygame.draw.circle(win, YELLOW, self.map.xy[i], 5)
+            pygame.draw.circle(win, YELLOW, self.map.draw_xy[i], 5)
 
     def save_path(self):
-        np.savetxt('path.txt', self.best_route.path)
-        np.savetxt('distances.txt', self.best_distance_in_generation)
+        x = random.randint(0,100)
+        np.savetxt('path' + OPTION + x +'.txt', self.best_route.path)
+        np.savetxt('distances4' + OPTION + x +'.txt', self.best_distance_in_generation)
         
 
 
