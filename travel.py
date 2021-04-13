@@ -10,7 +10,7 @@ import numpy as np
 from settings import *
 
 
-FPS = 30
+FPS = 75
 
 pygame.font.init()
 FONT = pygame.font.SysFont("monospace", 25)
@@ -33,7 +33,7 @@ def main():
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     pygame.display.set_caption('Travelling Salesman Problem')
     clock = pygame.time.Clock()
-    graph = Map(NUM_OF_CITIES, 'load')
+    graph = Map(NUM_OF_CITIES, OPTION)
     population = Population(NUM_OF_ROUTES, NUM_OF_CITIES, graph)
     run = True
     i = 0
@@ -43,16 +43,15 @@ def main():
      	    if event.type == pygame.QUIT:
                 run = False
         population.geneticAlgorithm()
-        i +=1
+        i += 1       
         draw_window(win, population, i)
+    population.save_path()
     while run:
         draw_window(win, population, i)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-    print(population.best_distance_in_generation[0])
-    print(population.best_route.distance)
-    population.save_path()
+    
     
 
 main()
